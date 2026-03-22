@@ -2,6 +2,14 @@
 
 One-script macOS terminal environment setup. Run on a fresh Mac, get a fully configured terminal in minutes.
 
+<p align="center">
+  <img src="assets/ghostty.png" width="120" alt="Ghostty">
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/fish.png" width="120" alt="Fish Shell">
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/starship.png" width="120" alt="Starship">
+</p>
+
 ## Stack
 
 | Component | What |
