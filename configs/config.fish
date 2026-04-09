@@ -13,6 +13,10 @@ end
 
 fish_add_path /opt/homebrew/bin
 
+# Default editor
+set -gx EDITOR hx
+set -gx VISUAL hx
+
 # Starship prompt
 source (/opt/homebrew/bin/starship init fish --print-full-init | psub)
 
