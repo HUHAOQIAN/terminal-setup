@@ -820,6 +820,43 @@ fi
 run_cmd cp "$CONFIGS_DIR/starship.toml" "$HOME/.config/starship.toml"
 success "Starship config deployed"
 
+# --- bat config ---
+BAT_CONFIG_DIR="$HOME/.config/bat"
+mkdir -p "$BAT_CONFIG_DIR"
+if [[ -f "$BAT_CONFIG_DIR/config" ]]; then
+    run_cmd cp "$BAT_CONFIG_DIR/config" "$BAT_CONFIG_DIR/config.bak.$(date +%s)"
+    warn "Backed up existing bat config"
+fi
+run_cmd cp "$CONFIGS_DIR/bat.conf" "$BAT_CONFIG_DIR/config"
+success "bat config deployed (Catppuccin Mocha theme)"
+
+# --- Helix config ---
+HELIX_CONFIG_DIR="$HOME/.config/helix"
+mkdir -p "$HELIX_CONFIG_DIR"
+if [[ -f "$HELIX_CONFIG_DIR/config.toml" ]]; then
+    run_cmd cp "$HELIX_CONFIG_DIR/config.toml" "$HELIX_CONFIG_DIR/config.toml.bak.$(date +%s)"
+    warn "Backed up existing Helix config"
+fi
+run_cmd cp "$CONFIGS_DIR/helix/config.toml" "$HELIX_CONFIG_DIR/config.toml"
+success "Helix config deployed (Catppuccin Mocha theme)"
+
+# --- Yazi config ---
+YAZI_CONFIG_DIR="$HOME/.config/yazi"
+mkdir -p "$YAZI_CONFIG_DIR"
+if [[ -f "$YAZI_CONFIG_DIR/theme.toml" ]]; then
+    run_cmd cp "$YAZI_CONFIG_DIR/theme.toml" "$YAZI_CONFIG_DIR/theme.toml.bak.$(date +%s)"
+    warn "Backed up existing Yazi theme"
+fi
+run_cmd cp "$CONFIGS_DIR/yazi/theme.toml" "$YAZI_CONFIG_DIR/theme.toml"
+# Install Catppuccin Mocha flavor for Yazi
+if has_cmd ya; then
+    run_cmd ya pkg add yazi-rs/flavors:catppuccin-mocha
+    run_cmd ya pkg install
+    success "Yazi theme deployed (Catppuccin Mocha flavor)"
+else
+    warn "ya command not found — Yazi flavor not installed, but theme.toml is in place"
+fi
+
 # --- Tmux config ---
 if [[ -f "$HOME/.tmux.conf" ]]; then
     run_cmd cp "$HOME/.tmux.conf" "$HOME/.tmux.conf.bak.$(date +%s)"
