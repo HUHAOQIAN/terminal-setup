@@ -463,7 +463,7 @@ echo -e "${BOLD}  🛠  Step 5/9: CLI Tools${NC}"
 echo -e "${BOLD}══════════════════════════════════════════${NC}"
 
 install_cli_tools_macos() {
-    local TOOLS=(bat eza fd ripgrep btop zoxide jq tldr git-delta lazygit fzf)
+    local TOOLS=(bat eza fd ripgrep btop zoxide jq tldr git-delta lazygit fzf yazi visidata helix)
     for tool in "${TOOLS[@]}"; do
         if brew list "$tool" &>/dev/null; then
             success "$tool already installed"
@@ -594,6 +594,46 @@ install_cli_tools_linux() {
             success "lazygit installed via apt"
         else
             install_bundled_bin lazygit || warn "Could not install lazygit — skipping"
+        fi
+    fi
+
+    # yazi — terminal file manager
+    if has_cmd yazi; then
+        success "yazi already installed"
+    else
+        info "Installing yazi..."
+        if run_cmd sudo apt-get install -y yazi 2>/dev/null; then
+            success "yazi installed via apt"
+        else
+            install_bundled_bin yazi || warn "Could not install yazi — install manually: https://github.com/sxyazi/yazi"
+        fi
+    fi
+
+    # visidata — terminal data viewer
+    if has_cmd vd; then
+        success "visidata already installed"
+    else
+        info "Installing visidata..."
+        if has_cmd pip3; then
+            run_cmd pip3 install --user visidata
+            success "visidata installed via pip"
+        elif has_cmd pipx; then
+            run_cmd pipx install visidata
+            success "visidata installed via pipx"
+        else
+            warn "Could not install visidata — need pip3 or pipx"
+        fi
+    fi
+
+    # helix — terminal editor
+    if has_cmd hx; then
+        success "helix already installed"
+    else
+        info "Installing helix..."
+        if run_cmd sudo apt-get install -y helix 2>/dev/null; then
+            success "helix installed via apt"
+        else
+            install_bundled_bin hx || warn "Could not install helix — install manually: https://helix-editor.com"
         fi
     fi
 
