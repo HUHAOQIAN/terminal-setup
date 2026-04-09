@@ -1,5 +1,14 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # Abbreviations (modern replacements for common commands)
+    abbr -a ls "eza --icons --group-directories-first"
+    abbr -a ll "eza -la --icons --group-directories-first"
+    abbr -a lt "eza --tree --icons --level=2"
+    abbr -a cat "bat"
+    abbr -a find "fd"
+    abbr -a grep "rg"
+    abbr -a top "btop"
+    abbr -a lg "lazygit"
+    abbr -a cd "z"
 end
 
 fish_add_path /opt/homebrew/bin

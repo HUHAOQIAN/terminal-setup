@@ -780,6 +780,23 @@ fi
 run_cmd cp "$CONFIGS_DIR/starship.toml" "$HOME/.config/starship.toml"
 success "Starship config deployed"
 
+# --- Tmux config ---
+if [[ -f "$HOME/.tmux.conf" ]]; then
+    run_cmd cp "$HOME/.tmux.conf" "$HOME/.tmux.conf.bak.$(date +%s)"
+    warn "Backed up existing .tmux.conf"
+fi
+run_cmd cp "$CONFIGS_DIR/tmux.conf" "$HOME/.tmux.conf"
+
+# Install TPM (Tmux Plugin Manager) if not present
+if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    info "Installing Tmux Plugin Manager (TPM)..."
+    run_cmd git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+    success "TPM installed (run prefix + I inside tmux to install plugins)"
+else
+    success "TPM already installed"
+fi
+success "Tmux config deployed"
+
 # --- Shell-specific config ---
 if [[ "$SHELL_CHOICE" == "fish" ]]; then
     # Fish config
@@ -805,24 +822,9 @@ if [[ "$SHELL_CHOICE" == "fish" ]]; then
     fi
     success "Fish config deployed"
 
-    # Fish abbreviations
-    if ! $DRY_RUN; then
-        info "Setting up Fish abbreviations..."
-        fish -c '
-            abbr -a --global ls "eza --icons --group-directories-first"
-            abbr -a --global ll "eza -la --icons --group-directories-first"
-            abbr -a --global lt "eza --tree --icons --level=2"
-            abbr -a --global cat "bat"
-            abbr -a --global find "fd"
-            abbr -a --global grep "rg"
-            abbr -a --global top "btop"
-            abbr -a --global lg "lazygit"
-            abbr -a --global cd "z"
-        '
-        success "Fish abbreviations set"
-    else
-        info "[DRY-RUN] Would set Fish abbreviations"
-    fi
+    # Fish abbreviations are now defined in config.fish (inside `if status is-interactive`)
+    # This is compatible with Fish 4.x which removed --global/--universal for abbr
+    success "Fish abbreviations loaded from config.fish"
 
     # Zoxide + fzf init for fish
     if ! grep -qF "zoxide" "$FISH_CONFIG_DIR/config.fish" 2>/dev/null; then
